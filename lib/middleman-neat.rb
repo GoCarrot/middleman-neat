@@ -1,15 +1,13 @@
 require "middleman-neat/version"
 
 module MiddlemanNeat
-
-  class << self
-    def registered(app)
+  class Extension < Middleman::Extension
+    def initialize(app, options_hash = {}, &block)
       require "neat"
       gem_dir = Gem::Specification.find_by_name("neat").gem_dir
       Sass.load_paths << File.expand_path("./app/assets/stylesheets", gem_dir)
     end
-    alias :included :registered
   end
 end
 
-::Middleman::Extensions.register(:neat, MiddlemanNeat)
+::Middleman::Extensions.register(:neat, MiddlemanNeat::Extension)
